@@ -1,0 +1,48 @@
+package com.test;
+
+import static org.testng.Assert.assertEquals;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class BookMyShowTest {
+
+    @Test
+	  public void verifyMassege() throws InterruptedException{
+		WebDriverManager.firefoxdriver().setup();
+		WebDriver driver=new FirefoxDriver();
+		driver.get("https://in.bookmyshow.com/");
+		driver.manage().window().maximize();
+		Thread.sleep(2000);
+		
+		
+		driver.findElement(By.xpath("//input[@placeholder='Search for your city']")).sendKeys("Bengaluru");
+		driver.findElement(By.xpath("//*[@id=\"super-container\"]/div[2]/header/div[1]/div/div/div/div[2]/div[2]/div[1]")).click();
+		driver.findElement(By.xpath("//*[@id=\"modal-root\"]/div/div/div/div/div[2]/div/div[1]/div/div[2]/div/div")).click();
+		driver.findElement(By.id("emailId")).sendKeys("selauto@yopmail.com");
+		driver.findElement(By.xpath("//*[@id=\"modal-root\"]/div/div/div/div/div[2]/form/div[2]/button")).click();
+		
+		
+		String actmsg=  driver.findElement(By.xpath("//*[@id=\"super-container\"]/div[2]/header/div[1]/div/div/div/div[2]/div[2]/span")).getText();
+		String expmsg= "Hi, Guest";
+		assertEquals(actmsg,expmsg,"invalid user");
+		
+		driver.navigate().to("https://yopmail.com/");
+		driver.findElement(By.id("login")).sendKeys("selauto@yopmail.com");
+		driver.findElement(By.id("login")).sendKeys(Keys.ENTER);
+		String otp= driver.findElement(By.xpath("//*[@id=\"mail\"]/div/table/tbody/tr[1]/td/div/table/tbody/tr[4]/td/table/tbody/tr[2]/td/table/tbody/tr/td")).getText();
+		System.out.print(otp);
+		driver.navigate().back();
+		driver.navigate().back();
+		
+		
+		
+	}
+
+}
